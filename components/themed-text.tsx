@@ -1,60 +1,57 @@
-import { StyleSheet, Text, type TextProps } from 'react-native';
+import { StyleSheet, Text, View } from "react-native";
 
-import { useThemeColor } from '@/hooks/use-theme-color';
+interface Props {
+  estacion: any;
+}
 
-export type ThemedTextProps = TextProps & {
-  lightColor?: string;
-  darkColor?: string;
-  type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link';
-};
-
-export function ThemedText({
-  style,
-  lightColor,
-  darkColor,
-  type = 'default',
-  ...rest
-}: ThemedTextProps) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
-
+export default function PrecioCard({
+  estacion,
+}: Props) {
   return (
-    <Text
-      style={[
-        { color },
-        type === 'default' ? styles.default : undefined,
-        type === 'title' ? styles.title : undefined,
-        type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,
-        type === 'subtitle' ? styles.subtitle : undefined,
-        type === 'link' ? styles.link : undefined,
-        style,
-      ]}
-      {...rest}
-    />
+    <View style={styles.card}>
+      <Text style={styles.rotulo}>
+        {estacion["Rótulo"]}
+      </Text>
+
+      <Text>
+        📍 {estacion["Dirección"]}
+      </Text>
+
+      <Text>
+        🏙️ {estacion["Municipio"]}
+      </Text>
+
+      <Text>
+        🗺️ {estacion["Provincia"]}
+      </Text>
+
+      <Text style={styles.precio}>
+        💰 Precio:
+        {" "}
+        {estacion["PrecioProducto"]}
+        €
+      </Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  default: {
+  card: {
+    backgroundColor: "#fff",
+    padding: 15,
+    borderRadius: 10,
+    marginVertical: 8,
+    elevation: 3,
+  },
+
+  rotulo: {
+    fontWeight: "bold",
     fontSize: 16,
-    lineHeight: 24,
+    marginBottom: 5,
   },
-  defaultSemiBold: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: '600',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    lineHeight: 32,
-  },
-  subtitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  link: {
-    lineHeight: 30,
-    fontSize: 16,
-    color: '#0a7ea4',
+
+  precio: {
+    marginTop: 8,
+    fontWeight: "bold",
   },
 });
